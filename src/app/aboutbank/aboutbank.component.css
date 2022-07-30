@@ -52,3 +52,9 @@
   position: relative;
   text-align: center ;
 }
+.centered {
+  position: absolute;
+  top: 17%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
