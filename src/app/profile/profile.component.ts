@@ -74,15 +74,7 @@ export class ProfileComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-
-
-  //{AccountNumber: 10000, Balance: 10000, AccountType: 'string', CustomerId: 7003, Customer: null, …
+  
    getAccountDetails()
   {
     console.log('reached account')
@@ -121,7 +113,7 @@ export class ProfileComponent implements OnInit {
                 this.state=<any>obj.State;
                 this.city=<any>obj.City;
                 this.pincode=<any>obj.Pincode;
-                
+                //this.Balance=<any>obj.Balance;
               }
           }
         

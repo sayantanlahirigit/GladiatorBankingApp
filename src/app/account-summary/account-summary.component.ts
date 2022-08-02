@@ -40,7 +40,7 @@ export class AccountSummaryComponent implements OnInit {
     this.router.navigateByUrl('/login');    
   }
   
-  //{AccountNumber: 10000, Balance: 10000, AccountType: 'string', CustomerId: 7003, Customer: null, …
+  
    getAccountDetails()
   {
     console.log('reached account')
@@ -79,7 +79,7 @@ export class AccountSummaryComponent implements OnInit {
                 this.state=<any>obj.State;
                 this.city=<any>obj.City;
                 this.pincode=<any>obj.Pincode;
-                
+                //this.Balance=<any>obj.Balance;
               }
           }
         

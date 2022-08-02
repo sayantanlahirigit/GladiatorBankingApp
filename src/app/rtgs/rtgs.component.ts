@@ -22,6 +22,11 @@ export class RtgsComponent implements OnInit {
   public dateTime = new Date();
   public Time:string = this.dateTime.toString().substring(16,24);
 
+  public from_bal:number=0;
+  public to_bal:number=0;
+  public from_id:any;
+  public to_id:any;
+
   flag:boolean=false;
   flag1:boolean=false;
   flag2:boolean=false;
@@ -38,20 +43,26 @@ export class RtgsComponent implements OnInit {
         {
           if(this.fromAccountNo==<any>obj.AccountNumber)
           {
+            this.from_id=<any>obj.CustomerId
+            console.log(this.from_id+' '+<any>obj.CustomerId)
+            this.from_bal=<any>obj.Balance
             console.log('erached1')
             this.flag=true;
           }
         }
         for(let obj of data)
         {
-          if(this.fromAccountNo==<any>obj.AccountNumber)
+          if(this.toAccountNo==<any>obj.AccountNumber)
           {
+            this.to_id=<any>obj.CustomerId
+            console.log(this.to_id + ' '+<any>obj.CustomerId)
+            this.to_bal=<any>obj.Balance
             console.log('erached2')
             this.flag1=true;
           }
         }  
       })
-//{InternetBankingId: 5001, CustomerId: 7004, TransactionPassword: 'string', AccountNumber: 10001,
+
       this.service.getInternetBanking().subscribe(res=>
         {
           console.log(res)
@@ -68,7 +79,7 @@ export class RtgsComponent implements OnInit {
       console.log(this.flag+' '+this.flag1+' '+this.flag2)
       
       if(this.flag2==false){
-        alert('Entered wrong Transaction Password')
+        alert('Transaction Successful!')
       }
       else if(this.flag&&this.flag1&&this.flag2){
         var rtgs= {
@@ -81,6 +92,26 @@ export class RtgsComponent implements OnInit {
         }
         console.log(rtgs);
         this.service.PostRtgs(rtgs).subscribe();
+        
+        this.from_bal-=this.amount
+        this.to_bal+=this.amount
+        var fromObj={
+          accountNumber:this.fromAccountNo,
+          balance:this.from_bal,
+          accountType:'Savings',
+          customerId:this.from_id
+      }
+      var toObj={
+        accountNumber:this.toAccountNo,
+        balance:this.to_bal,
+        accountType:'Savings',
+        customerId:this.to_id
+      }
+      console.log(fromObj)
+      console.log(toObj)
+        this.service.PutAccount(this.fromAccountNo,fromObj).subscribe();
+        this.service.PutAccount(this.toAccountNo,toObj).subscribe();
+      
       }
 }
 

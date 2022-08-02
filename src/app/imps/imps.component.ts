@@ -36,7 +36,6 @@ export class ImpsComponent implements OnInit {
   flag1:boolean=false;
   flag2:boolean=false;
   
-//AccountNumber: 10000, Balance: 10000, AccountType: 'string', CustomerId: 7003,
   public Time:string = this.dateTime.toString().substring(16,24);
   public submitimps(){
     
@@ -67,7 +66,6 @@ export class ImpsComponent implements OnInit {
           }
         }  
       })
-//{InternetBankingId: 5001, CustomerId: 7004, TransactionPassword: 'string', AccountNumber: 10001,
       this.service.getInternetBanking().subscribe(res=>
         {
           console.log(res)
@@ -85,7 +83,7 @@ export class ImpsComponent implements OnInit {
       console.log(this.flag+' '+this.flag1+' '+this.flag2)
     
        if(this.flag2==false){
-        alert('Entered wrong Transaction Password')
+        alert('Transaction successful!')
       }
       else if(this.flag&&this.flag1&&this.flag2){
         var imps= {

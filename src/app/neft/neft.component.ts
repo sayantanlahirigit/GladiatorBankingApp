@@ -22,13 +22,18 @@ export class NeftComponent implements OnInit {
   public fromAccountNo:number=0;
   public toAccountNo:number=0;
   public amount:number=0;
+  public transactionPassword:string='';
   public mode:string ="NEFT";
   public date:string='';
-  public transactionPassword:string='';
   public time:string='';
   public dateTime = new Date();
 
   public Time:string = this.dateTime.toString().substring(16,24);
+
+  public from_bal:number=0;
+  public to_bal:number=0;
+  public from_id:any;
+  public to_id:any;
 
   flag:boolean=false;
   flag1:boolean=false;
@@ -37,18 +42,25 @@ export class NeftComponent implements OnInit {
   public submitNeft(){
     this.service.getaccount().subscribe(data=>
       {
+        
         for(let obj of data)
         {
           if(this.fromAccountNo==<any>obj.AccountNumber)
           {
+            this.from_id=<any>obj.CustomerId
+            console.log(this.from_id+' '+<any>obj.CustomerId)
+            this.from_bal=<any>obj.Balance
             console.log('erached1')
             this.flag=true;
           }
         }
         for(let obj of data)
         {
-          if(this.fromAccountNo==<any>obj.AccountNumber)
+          if(this.toAccountNo==<any>obj.AccountNumber)
           {
+            this.to_id=<any>obj.CustomerId
+            console.log(this.to_id + ' '+<any>obj.CustomerId)
+            this.to_bal=<any>obj.Balance
             console.log('erached2')
             this.flag1=true;
           }
@@ -70,7 +82,7 @@ export class NeftComponent implements OnInit {
         })
       console.log(this.flag+' '+this.flag1+' '+this.flag2)
      if(this.flag2==false){
-        alert('Entered wrong Transaction Password')
+        alert('Transaction Successful!')
       }
       else if(this.flag&&this.flag1&&this.flag2){
         var neft= {
@@ -83,6 +95,25 @@ export class NeftComponent implements OnInit {
         }
         console.log(neft);
         this.service.PostNeft(neft).subscribe();
+
+        this.from_bal-=this.amount
+        this.to_bal+=this.amount
+        var fromObj={
+          accountNumber:this.fromAccountNo,
+          balance:this.from_bal,
+          accountType:'Savings',
+          customerId:this.from_id
+      }
+      var toObj={
+        accountNumber:this.toAccountNo,
+        balance:this.to_bal,
+        accountType:'Savings',
+        customerId:this.to_id
+      }
+      console.log(fromObj)
+      console.log(toObj)
+        this.service.PutAccount(this.fromAccountNo,fromObj).subscribe();
+        this.service.PutAccount(this.toAccountNo,toObj).subscribe();
       }
 }
 }

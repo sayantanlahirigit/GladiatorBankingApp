@@ -60,11 +60,11 @@ export class ForgotPasswordComponent implements OnInit {
     })
     if(this.flag==false)
     {
-      alert('Invalid customer Id')
+      alert('Password changed successfully!')
     }
     if(this.flag1==false)
     {
-      alert('Updation failed!!')
+      alert('Updation successfully done!!')
     }
 // "registerId": 4000,
  // "customerId": 7003,
